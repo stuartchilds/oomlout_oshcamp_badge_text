@@ -34,7 +34,7 @@ def set_mode(m):
     countersunk_dict['M3']['height'] = 1.7
 
 
-def opsc_make_object(filename, objects, save_type="none",resolution=50, layers = 1, tilediff = 200, mode="laser", overwrite=True, start = 1.5):
+def opsc_make_object(filename, objects, save_type="none",resolution=50, layers = 1, tilediff = 200, mode="laser", overwrite=True, start = 1.5, render=True):
     filename_test = filename.replace(".scad",".png")
     if overwrite or not os.path.exists(filename_test):
         set_mode(mode)
@@ -44,14 +44,14 @@ def opsc_make_object(filename, objects, save_type="none",resolution=50, layers =
         # Save the final object to the specified filename    
         scad_render_to_file(final_object, filename, file_header='$fn = %s;' % resolution, include_orig_code=False)
         if save_type == "all":
-            saveToAll(filename)
+            saveToAll(filename, render=render)
         elif save_type == "dxf":
             saveToDxf(filename)
         if mode == "laser":
             filename_laser = filename.replace(".scad","_flat.scad")
             scad_render_to_file(getLaser(final_object, layers=layers, tilediff=tilediff, start = start), filename_laser, file_header='$fn = %s;' % resolution, include_orig_code=False) 
             if save_type == "all":
-                saveToAll(filename_laser)
+                saveToAll(filename_laser, render=render)
             elif save_type == "dxf" or save_type == "laser":
                 saveToDxf(filename_laser)
     else:
@@ -803,8 +803,8 @@ def test(num_objects):
     return objects
 
 ####### old file saving
-def saveToAll(fileIn):
-    saveToFileAll(fileIn)
+def saveToAll(fileIn, render=True):
+    saveToFileAll(fileIn, render=render)
     
 def saveToTheRest(fileIn):
 
@@ -844,12 +844,13 @@ def saveToFile(fileIn, fileOut,extra=""):
     subprocess.run(launchStr)
     x=0
 
-def saveToFileAll(fileIn, extra=""):
+def saveToFileAll(fileIn, extra="", render=True):
     #extra = extra + " --colorscheme Tomorrow"
     launch_strings = []
     #add openscad
     launch_strings.append("openscad")
-    launch_strings.append(f'--render')
+    if render:
+        launch_strings.append(f'--render')
     formats = ["dxf","png","svg","stl"]
     
     format_string = ""

@@ -224,7 +224,7 @@ def build_thing(thing, save_type="all", overwrite=True):
         opsc.opsc_make_object(f'things/{thing}/{mode}.scad', oobb.things[thing]["components"], mode=mode,
                               save_type=save_type, overwrite=overwrite, layers=layers, tilediff=tilediff, start=start)
 
-def build_thing_filename(thing, save_type="all", overwrite=True, filename="", depth=3, height = 200):
+def build_thing_filename(thing, save_type="all", overwrite=True, filename="", depth=3, height = 200, render=True):
     modes = ["3dpr", "laser", "true"]
     for mode in modes:
         depth = depth
@@ -234,7 +234,7 @@ def build_thing_filename(thing, save_type="all", overwrite=True, filename="", de
         start = 1.5
         if layers != 1:
             start = 1.5 - (layers / 2)*3
-        opsc.opsc_make_object(f'{filename}{mode}.scad', thing, mode=mode, save_type=save_type, overwrite=overwrite, layers=layers, tilediff=tilediff, start=start)
+        opsc.opsc_make_object(f'{filename}{mode}.scad', thing, mode=mode, save_type=save_type, overwrite=overwrite, layers=layers, tilediff=tilediff, start=start, render=render)
 
 
 
