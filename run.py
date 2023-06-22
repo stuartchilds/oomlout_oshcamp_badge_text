@@ -100,8 +100,6 @@ def all():
     
 
 def main():
-    obs = {}
-    objects = []    
     
 
     #read lines from data.txt into an array
@@ -110,6 +108,9 @@ def main():
         #remove whitespace characters like `\n` at the end of each line
         lines = [x.strip() for x in lines]
         for line in lines:
+            obs = {}
+            objects = []    
+    
             name = line      
 
             ##text
