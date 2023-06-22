@@ -2294,7 +2294,7 @@ def get_trlts(**kwargs):
         
         th.append(ob.oobb_easy(t="p", s=f"oobb_cylinder", radius=r, depth=depth, pos=pos, m=""))
         #add nut
-        pos = [x + base_pos[0], y + base_pos[1], base_pos[2]+wall_thickness]
+        pos = [x + base_pos[0], y + base_pos[1], base_pos[2]+wall_thickness*2]
         th.append(ob.oobb_easy(t="n", s=f"oobb_nut", radius_name="m3", zz="top", pos=pos, m="#"))
 
 
