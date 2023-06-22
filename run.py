@@ -3,6 +3,7 @@ import oobb
 import oobb_base as ob
 import oobb_get_items_oobb as obo
 import opsc_library_gen
+import os
 
 #name_project equals module name
 name_project = __file__.split('\\')[-1].split('.')[0]
@@ -102,39 +103,51 @@ def main():
     obs = {}
     objects = []    
     
-    ##text
-    ins = "text1"
-    oin = obs[ins] = {}
-    oin["text"] = "OMER"
-    oin["size"] = 17
-    oin["height"] = 8
-    oin["font"] = "DejaVu Sans Mono:style=Bold" # "Liberation Sans:style=Bold Italic"
-    oin["halign"] = "center"
-    oin["valign"] = "center"
-    oin["wall_thickness"] = 0.5
-    oin["x"], oin["y"], oin["z"] = 0,0,0
-    oin["shap"] = "text_hollow" #text_hollow text
-    objects.append(ob.oe(t="p", s=oin["shap"], text=oin["text"], size=oin["size"], font=oin["font"], halign=oin["halign"], valign=oin["valign"], height=oin["height"], pos=[oin["x"],oin["y"],oin["z"]], m="", extra="reverse"))
+
+    #read lines from data.txt into an array
+    with open("data.txt") as f:
+        lines = f.readlines()
+        #remove whitespace characters like `\n` at the end of each line
+        lines = [x.strip() for x in lines]
+        for line in lines:
+            name = line      
+
+            ##text
+            ins = "text1"
+            oin = obs[ins] = {}
+            oin["text"] = line
+            oin["size"] = 17
+            oin["height"] = 8
+            oin["font"] = "DejaVu Sans Mono:style=Bold" # "Liberation Sans:style=Bold Italic"
+            oin["halign"] = "center"
+            oin["valign"] = "center"
+            oin["wall_thickness"] = 0.5
+            oin["x"], oin["y"], oin["z"] = 0,0,0
+            oin["shap"] = "text_hollow" #text_hollow text
+            objects.append(ob.oe(t="p", s=oin["shap"], text=oin["text"], size=oin["size"], font=oin["font"], halign=oin["halign"], valign=oin["valign"], height=oin["height"], pos=[oin["x"],oin["y"],oin["z"]], m="", extra="reverse"))
 
 
-    #joining piece
-    width = (7.5*10)-1
-    height = 7.5*3-1
-    depth = 0.5
-    x,y,z = 0,0,0
-    shap = "rounded_rectangle"
-    radius = 1
-    objects.append(ob.oe(t="p", s=shap, r=radius, size=[width,height,depth], pos=[x,y,z], m=""))
-    
-    xs = [7.5 * 9/2,-7.5 * 9/2]
-    ys = [7.5, 0, -7.5]
-    for x in xs:
-        for y in ys:
-            objects.append(ob.oe(t="n", s="oobb_hole", radius_name="m3", depth=100, pos=[x,y,-50], m="#"))
+            #joining piece
+            width = (7.5*10)-1
+            height = 7.5*3-1
+            depth = 0.5
+            x,y,z = 0,0,0
+            shap = "rounded_rectangle"
+            radius = 1
+            objects.append(ob.oe(t="p", s=shap, r=radius, size=[width,height,depth], pos=[x,y,z], m=""))
+            
+            xs = [7.5 * 9/2,-7.5 * 9/2]
+            ys = [7.5, 0, -7.5]
+            for x in xs:
+                for y in ys:
+                    objects.append(ob.oe(t="n", s="oobb_hole", radius_name="m3", depth=100, pos=[x,y,-50], m="#"))
 
 
-
-    ob.build_thing_filename(filename=f'outputs/', thing=objects, save_type=save_type)
+            #output filename test
+            filename = f"outputs/{name}/3dpr.scad"
+            #if filename doesn't exist
+            if not os.path.exists(os.path.dirname(filename)):
+                ob.build_thing_filename(filename=f'outputs/{name}/', thing=objects, save_type=save_type, render=False)
 
 X = 0
 Y = 1
