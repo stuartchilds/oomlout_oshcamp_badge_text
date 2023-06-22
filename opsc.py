@@ -853,6 +853,12 @@ def saveToFileAll(fileIn, extra=""):
         format_string = f'{format_string} -o "{file_out}" '
     launchStr = f'openscad {format_string} {extra} --render "{fileIn}"'
     print("            saveToFile launch string: " + launchStr)
+    #if fileout folder doesn't exist, create it
+    if not os.path.exists(os.path.dirname(file_out)):
+        #create fodler
+        os.makedirs(os.path.dirname(file_out))
+
+
     subprocess.run(launchStr)
     x=0
 
