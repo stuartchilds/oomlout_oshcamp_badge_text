@@ -1366,8 +1366,11 @@ def get_oobb_nut(loose=False, through=False, **kwargs):
         if mode == "3dpr" and rotX == 0:
             #kwargs["m"] = "#"
             height_layer = 0.3
-            adjusters = [[depth, depth + height_layer]]
-            adjusters.append([-height_layer, -height_layer*2])
+            extra_z = 0
+            if zz == "top":
+                extra_z = -depth
+            adjusters = [[depth+extra_z, depth + height_layer + extra_z]]
+            adjusters.append([-height_layer + extra_z, -height_layer*2 + extra_z])
             if overhang:
                 for adjuster in adjusters:
                     p2 = copy.deepcopy(kwargs)
@@ -1379,6 +1382,7 @@ def get_oobb_nut(loose=False, through=False, **kwargs):
                     
                     p2["size"] = [3.5, 6.5, height_layer] 
                     p2["pos"] = [p2["pos"][0], p2["pos"][1], p2["pos"][2] + adjuster[0]]            
+                    
                     #p2["m"] = "#"
                     return_value.append(ob.oe(**p2))
                     p2 = copy.deepcopy(kwargs)

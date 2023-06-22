@@ -405,6 +405,7 @@ def get_trs(size="oobb"):
     trays = []
 
     ts = []    
+    """
     ts.append([3,1])    
     ts.append([2,1])
     ts.append([3,1.5])    
@@ -420,7 +421,8 @@ def get_trs(size="oobb"):
     ts.append([3,3])
     ts.append([4,4])
     ts.append([5,5])
-
+    """
+    ts.append([3,3])
 
     thicknesses = [12, 15, 18, 21, 24, 27, 30]
     for tray in ts:

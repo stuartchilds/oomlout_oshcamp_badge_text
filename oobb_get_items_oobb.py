@@ -2229,8 +2229,14 @@ def get_trlts(**kwargs):
         #inset for connection
         #positive for smaller
         lid_inset = 2
-        wid=(width * 15)- lid_inset
-        hei=(height*15)- lid_inset
+        #wid=(width * 15)- lid_inset
+        #hei=(height*15)- lid_inset
+        wid=(1 * 15)- lid_inset
+        hei=(1*15)- lid_inset
+        x_sh, y_sh = ob.get_hole_pos(1, 1, width, height)
+        x_sh += (width - 1) * 15 
+        y_sh += (height - 1) * 15
+        pos_lip = [base_pos[0]+x_sh, base_pos[1]+y_sh, base_pos[2]+ wall_thickness]
         depth=thickness
         radius = (10 - lid_inset)  / 2
         
@@ -2238,17 +2244,17 @@ def get_trlts(**kwargs):
         #straight bit
         lip_depth = 2
         size = [wid,hei,lip_depth]
-        pos = [base_pos[0], base_pos[1], base_pos[2]-lip_depth]
+        pos = [pos_lip[0], pos_lip[1], pos_lip[2]-lip_depth]
         th.append(ob.oobb_easy(t="p", s=f"rounded_rectangle_extra", r=radius, inset=0,size = size,  pos=pos, m=""))
         
         #lip
         inset = 2
         #pos = [base_pos[0], base_pos[1], base_pos[2]-lip_depth]
-        pos = [base_pos[0], base_pos[1], base_pos[2]-depth]
+        pos = [pos_lip[0], pos_lip[1], pos_lip[2]-depth]
         size = [wid,hei,depth-lip_depth]
         th.append(ob.oobb_easy(t="p", s=f"rounded_rectangle_extra", r=radius, inset=inset,size = size,  rotY=180, pos=pos, m=""))
         #middle clearance
-        pos = [base_pos[0], base_pos[1], base_pos[2]-depth] 
+        pos = [pos_lip[0], pos_lip[1], pos_lip[2]-depth] 
         if not fast:
             th.append(ob.oobb_easy(t="n", s=f"rounded_rectangle", r=radius-inset/2, size = [wid-wall_thickness*2-inset,hei-wall_thickness*2-inset,depth-wall_thickness],  pos=pos, m=""))
 
@@ -2266,33 +2272,29 @@ def get_trlts(**kwargs):
                 
             x,y = ob.get_hole_pos(h[0], h[1], width, height)
             pos = [x+base_pos[0], y+base_pos[1], base_pos[2]-50] 
-            th.extend(ob.oobb_easy(t="n", s=f"oobb_hole", radius_name="m3", depth=100, pos=pos, m="#"))
+            th.extend(ob.oobb_easy(t="n", s=f"oobb_hole", radius_name="m3", depth=100, pos=pos, m=""))
 
         #captive_nut
-        holes = [[1,1]]
+    holes = [[1,1]]
     for h in holes:
         #add 1x1 rounded rectangle 3mm deep
         
         x,y = ob.get_hole_pos(h[0], h[1], width, height)
         
-        wid = 13
-        hei = wid
-        depth = 3
-        if h[0] == 1:
-            depth = thickness - 4
-        size = [wid, hei, depth]
-        shift = -1
+        
+        
+        r = 5
+        depth = 4        
+        shift = 0
         x_shift = shift
         y_shift = shift
-        if h[0] == 1:
-            pos = [x + x_shift + base_pos[0], y + y_shift + base_pos[1], base_pos[2]]
-        else:
-            pos = [x - x_shift + base_pos[0], y - y_shift + base_pos[1], base_pos[2]]
+        pos = [x + x_shift + base_pos[0], y + y_shift + base_pos[1], base_pos[2] - depth/2]
         #add corner support
-        th.append(ob.oobb_easy(t="p", s=f"rounded_rectangle", size=size,pos=pos, m=""))
-        #add countersunk
-        pos = [x + base_pos[0], y + base_pos[1], base_pos[2]+thickness]
-        th.append(ob.oobb_easy(t="n", s=f"oobb_nut", radius_name="m3", pos=pos, m=""))
+        
+        th.append(ob.oobb_easy(t="p", s=f"oobb_cylinder", radius=r, depth=depth, pos=pos, m=""))
+        #add nut
+        pos = [x + base_pos[0], y + base_pos[1], base_pos[2]+wall_thickness]
+        th.append(ob.oobb_easy(t="n", s=f"oobb_nut", radius_name="m3", zz="top", pos=pos, m="#"))
 
 
         return thing
