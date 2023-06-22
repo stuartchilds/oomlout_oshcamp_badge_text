@@ -852,7 +852,7 @@ def saveToFileAll(fileIn, extra=""):
         file_out = fileIn.replace(".scad","."+f)
         format_string = f'{format_string} -o "{file_out}" '
     launchStr = f'openscad {format_string} {extra} --render "{fileIn}"'
-    launchStr = f'openscad -h'
+    #launchStr = f'openscad -h'
     print("            saveToFile launch string: " + launchStr)
     #if fileout folder doesn't exist, create it
     if not os.path.exists(os.path.dirname(file_out)):
