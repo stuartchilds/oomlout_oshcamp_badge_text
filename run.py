@@ -150,7 +150,7 @@ def main():
             #if filename doesn't exist
 
             if not os.path.exists(filename):
-                ob.build_thing_filename(filename=f'outputs/{name}/', thing=objects, save_type=save_type, render=False)
+                ob.build_thing_filename(filename=f'outputs/{name}/', thing=objects, save_type=save_type, render=True)
             else:
                 #print meassage about skipping because file already exists
                 print(f"skipping {filename} because it already exists")
