@@ -876,7 +876,8 @@ def saveToFileAll(fileIn, extra=""):
 
 
     #subprocess.run(launchStr)
-    subprocess.run(launch_strings)
+    #subprocess.run(launch_strings)
+    subprocess.Popen(launch_strings)
     x=0
 
 def getLaser(final_object,start=1.5,layers=1,thickness=3,tilediff=200):
