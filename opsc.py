@@ -846,12 +846,22 @@ def saveToFile(fileIn, fileOut,extra=""):
 
 def saveToFileAll(fileIn, extra=""):
     #extra = extra + " --colorscheme Tomorrow"
+    launch_strings = []
+    #add openscad
+    launch_strings.append("openscad")
+
     formats = ["dxf","png","svg","stl","csg"]
+    
     format_string = ""
     for f in formats:
         file_out = fileIn.replace(".scad","."+f)
         format_string = f'{format_string} -o "{file_out}" '
-    launchStr = f'openscad {format_string} {extra} --render "{fileIn}"'
+        #add format string to launch string
+        launch_strings.append(format_string)
+    # add -- render filein
+    launch_strings.append(f'--render "{fileIn}"')
+        
+    #launchStr = f'openscad {format_string} {extra} --render "{fileIn}"'
     #launchStr = f'openscad -h'
     print("            saveToFile launch string: " + launchStr)
     #if fileout folder doesn't exist, create it
@@ -860,7 +870,8 @@ def saveToFileAll(fileIn, extra=""):
         os.makedirs(os.path.dirname(file_out))
 
 
-    subprocess.run(launchStr)
+    #subprocess.run(launchStr)
+    subprocess.run(launch_strings)
     x=0
 
 def getLaser(final_object,start=1.5,layers=1,thickness=3,tilediff=200):
