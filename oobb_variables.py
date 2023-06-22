@@ -221,20 +221,20 @@ def initialize_variables():
                 oring_d[oring_name] = {"id":id, "id_e":id_e_default, "od":od, "od_e":0.2, "depth":depth, "depth_e":0, "inner_holes":0}
             except:
                 print(f"error reading oring data {oring_name}")
-    except:
-        pass
-
-
-
-
-    for bn in oring_d:
-        vl[f'oring_{bn}_id'] = [oring_d[bn]["id"]/2, oring_d[bn]["id"]/2, oring_d[bn]["id"]/2]
-        vl[f'oring_{bn}_id_tight'] = [oring_d[bn]["id"]/2 + oring_d[bn]["id_e"], oring_d[bn]["id"]/2 + oring_d[bn]["id_e"], oring_d[bn]["id"]/2 + oring_d[bn]["id_e"]]
-        vl[f'oring_{bn}_od'] = [oring_d[bn]["od"]/2, oring_d[bn]["od"]/2, oring_d[bn]["od"]/2 + oring_d[bn]["od_e"]]
-        vl[f'oring_{bn}_depth'] = [oring_d[bn]["depth"], oring_d[bn]["depth"], oring_d[bn]["depth"]]
-        vl[f'oring_{bn}_inner_holes'] = [oring_d[bn]["inner_holes"], oring_d[bn]["inner_holes"], oring_d[bn]["inner_holes"]]
     
 
+
+
+
+        for bn in oring_d:
+            vl[f'oring_{bn}_id'] = [oring_d[bn]["id"]/2, oring_d[bn]["id"]/2, oring_d[bn]["id"]/2]
+            vl[f'oring_{bn}_id_tight'] = [oring_d[bn]["id"]/2 + oring_d[bn]["id_e"], oring_d[bn]["id"]/2 + oring_d[bn]["id_e"], oring_d[bn]["id"]/2 + oring_d[bn]["id_e"]]
+            vl[f'oring_{bn}_od'] = [oring_d[bn]["od"]/2, oring_d[bn]["od"]/2, oring_d[bn]["od"]/2 + oring_d[bn]["od_e"]]
+            vl[f'oring_{bn}_depth'] = [oring_d[bn]["depth"], oring_d[bn]["depth"], oring_d[bn]["depth"]]
+            vl[f'oring_{bn}_inner_holes'] = [oring_d[bn]["inner_holes"], oring_d[bn]["inner_holes"], oring_d[bn]["inner_holes"]]
+    
+    except:
+            pass
 
     # screw variables
     screws = ["m1d5", "m3", "m6"]

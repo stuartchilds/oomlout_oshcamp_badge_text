@@ -2265,8 +2265,35 @@ def get_trlts(**kwargs):
         for h in holes:    
                 
             x,y = ob.get_hole_pos(h[0], h[1], width, height)
-            pos = [x+base_pos[0], y+base_pos[1], base_pos[2]] 
-            th.extend(ob.oobb_easy(t="n", s=f"oobb_screw_socket_cap", radius_name="m3", depth=10, pos=pos, rotY=180, include_nut=False, m="#"))
+            pos = [x+base_pos[0], y+base_pos[1], base_pos[2]-50] 
+            th.extend(ob.oobb_easy(t="n", s=f"oobb_hole", radius_name="m3", depth=100, pos=pos, m="#"))
+
+        #captive_nut
+        holes = [[1,1]]
+    for h in holes:
+        #add 1x1 rounded rectangle 3mm deep
+        
+        x,y = ob.get_hole_pos(h[0], h[1], width, height)
+        
+        wid = 13
+        hei = wid
+        depth = 3
+        if h[0] == 1:
+            depth = thickness - 4
+        size = [wid, hei, depth]
+        shift = -1
+        x_shift = shift
+        y_shift = shift
+        if h[0] == 1:
+            pos = [x + x_shift + base_pos[0], y + y_shift + base_pos[1], base_pos[2]]
+        else:
+            pos = [x - x_shift + base_pos[0], y - y_shift + base_pos[1], base_pos[2]]
+        #add corner support
+        th.append(ob.oobb_easy(t="p", s=f"rounded_rectangle", size=size,pos=pos, m=""))
+        #add countersunk
+        pos = [x + base_pos[0], y + base_pos[1], base_pos[2]+thickness]
+        th.append(ob.oobb_easy(t="n", s=f"oobb_nut", radius_name="m3", pos=pos, m=""))
+
 
         return thing
 
