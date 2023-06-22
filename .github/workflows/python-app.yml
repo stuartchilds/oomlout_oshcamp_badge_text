@@ -34,4 +34,4 @@ jobs:
         openscad -h
     - name: run
       run: |
-        python run.py
+        sudo python run.py
