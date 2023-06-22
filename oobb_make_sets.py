@@ -426,6 +426,7 @@ def get_trs(size="oobb"):
     for tray in ts:
         trays.append({"type": "trl", "width": tray[0], "height": tray[1], "thickness": 2, "size": size})
         trays.append({"type": "trlt", "width": tray[0], "height": tray[1], "thickness": 4, "size": size})
+        trays.append({"type": "trlts", "width": tray[0], "height": tray[1], "thickness": 4, "size": size})
         for thickness in thicknesses:
             trays.append({"type": "tr", "width": tray[0], "height": tray[1], "thickness": thickness, "size": size})
             #trv vertical ones with oobb added for mounting on a wall

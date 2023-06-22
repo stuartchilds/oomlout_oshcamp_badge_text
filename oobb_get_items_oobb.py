@@ -2203,6 +2203,74 @@ def get_trlt(**kwargs):
 
         return thing
 
+def get_trlts(**kwargs):
+
+    width = kwargs.get("width", 1)
+    height = kwargs.get("height", 1)
+    thickness = kwargs.get("thickness", 3)
+    holes = kwargs.get("holes", False)
+    size = kwargs.get("size", "oobb")
+    base_pos = kwargs.get("pos", [0,0,0])
+    fast = kwargs.get("fast", False)
+    rotY = kwargs.get("rotY", 0)
+
+#janky way to be able to draw them either way up
+    if rotY == 0:
+
+        wall_thickness = 0.5
+
+        thing = ob.get_default_thing(**kwargs)
+        th = thing["components"]
+
+        #lid
+        th.append(ob.oobb_easy(t="p", s=f"{size}_plate", width=width+1/15, 
+        height=height+1/15, depth_mm=wall_thickness, pos=base_pos, m=""))
+
+        #inset for connection
+        #positive for smaller
+        lid_inset = 2
+        wid=(width * 15)- lid_inset
+        hei=(height*15)- lid_inset
+        depth=thickness
+        radius = (10 - lid_inset)  / 2
+        
+
+        #straight bit
+        lip_depth = 2
+        size = [wid,hei,lip_depth]
+        pos = [base_pos[0], base_pos[1], base_pos[2]-lip_depth]
+        th.append(ob.oobb_easy(t="p", s=f"rounded_rectangle_extra", r=radius, inset=0,size = size,  pos=pos, m=""))
+        
+        #lip
+        inset = 2
+        #pos = [base_pos[0], base_pos[1], base_pos[2]-lip_depth]
+        pos = [base_pos[0], base_pos[1], base_pos[2]-depth]
+        size = [wid,hei,depth-lip_depth]
+        th.append(ob.oobb_easy(t="p", s=f"rounded_rectangle_extra", r=radius, inset=inset,size = size,  rotY=180, pos=pos, m=""))
+        #middle clearance
+        pos = [base_pos[0], base_pos[1], base_pos[2]-depth] 
+        if not fast:
+            th.append(ob.oobb_easy(t="n", s=f"rounded_rectangle", r=radius-inset/2, size = [wid-wall_thickness*2-inset,hei-wall_thickness*2-inset,depth-wall_thickness],  pos=pos, m=""))
+
+        #add pull tab
+        #x = (width * ob.gv("osp"))/2-0.5
+        #depth = 1
+        #th.append(ob.oe(t="p", s="oobb_cylinder", radius=5, depth=depth, pos=[x, 0, depth/2], m=""))
+
+        #extra = "3+0.1"
+        #th.extend(ob.oobb_easy(t="n", text=extra,concate=False,s="oobb_text", size=6, pos=[0,0,0.3], rotY=180, rotZ=90, m=""))
+
+        #add countersunk to four corners
+        holes = [[1,1],[width,1],[1,height],[width,height]]
+        for h in holes:    
+                
+            x,y = ob.get_hole_pos(h[0], h[1], width, height)
+            pos = [x+base_pos[0], y+base_pos[1], base_pos[2]] 
+            th.extend(ob.oobb_easy(t="n", s=f"oobb_screw_socket_cap", radius_name="m3", depth=10, pos=pos, rotY=180, include_nut=False, m="#"))
+
+        return thing
+
+
 def get_trt(**kwargs):
 
     width = kwargs.get("width", 1)
@@ -2279,7 +2347,7 @@ def get_trts(**kwargs):
     for h in holes:
         x,y = ob.get_hole_pos(h[0], h[1], width, height)        
         pos = [x + base_pos[0], y + base_pos[1], base_pos[2]]  
-        th.append(ob.oobb_easy(t="p", wall_thickness=1,s=f"oobb_tube", radius_name="m3", depth=thickness, pos=pos, m=""))
+        th.append(ob.oobb_easy(t="p", wall_thickness=1,s=f"oobb_tube", radius_name="m3", depth=thickness-4, pos=pos, m=""))
     #add countersunk to bl
     holes = [[1,1], [width,height]]
     for h in holes:
@@ -2291,7 +2359,7 @@ def get_trts(**kwargs):
         hei = wid
         depth = 3
         if h[0] == 1:
-            depth = thickness - 3
+            depth = thickness - 4
         size = [wid, hei, depth]
         shift = -1
         x_shift = shift
