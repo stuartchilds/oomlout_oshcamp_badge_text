@@ -149,8 +149,11 @@ def main():
             os.makedirs(os.path.dirname(filename), exist_ok=True)
             #if filename doesn't exist
 
-            if not os.path.exists(os.path.dirname(filename)):
+            if not os.path.exists(filename):
                 ob.build_thing_filename(filename=f'outputs/{name}/', thing=objects, save_type=save_type, render=False)
+            else:
+                #print meassage about skipping because file already exists
+                print(f"skipping {filename} because it already exists")
 
 X = 0
 Y = 1
