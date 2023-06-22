@@ -27,13 +27,14 @@ jobs:
       run: |
         python -m pip install --upgrade pip        
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        sudo apt install openscad
-        "/usr/bin/openscad" >> $GITHUB_PATH
+        sudo apt install openscad        
+        "/usr/bin" >> $GITHUB_PATH
     - name: test
       run: |      
         echo test openscad
         openscad -h
         which openscad
+        echo $PATH
     - name: run
       run: |
         python run.py
