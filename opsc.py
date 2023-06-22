@@ -867,7 +867,7 @@ def saveToFileAll(fileIn, extra=""):
         
     #launchStr = f'openscad {format_string} {extra} --render "{fileIn}"'
     #launchStr = f'openscad -h'
-    launchStr = " ".join(launch_strings)
+    launchStr = ",".join(launch_strings)
     print("            saveToFile launch string: " + launchStr)
     #if fileout folder doesn't exist, create it
     if not os.path.exists(os.path.dirname(file_out)):
@@ -876,8 +876,12 @@ def saveToFileAll(fileIn, extra=""):
 
 
     #subprocess.run(launchStr)
-    #subprocess.run(launch_strings)
-    subprocess.Popen(launch_strings)
+    result = subprocess.run(launch_strings)
+    # print result with description of what's happening
+    print(f"            saveToFileAll result: {result}")
+
+
+    #subprocess.Popen(launch_strings)
     x=0
 
 def getLaser(final_object,start=1.5,layers=1,thickness=3,tilediff=200):
