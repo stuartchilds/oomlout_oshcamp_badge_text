@@ -145,7 +145,10 @@ def main():
 
             #output filename test
             filename = f"outputs/{name}/3dpr.scad"
+            #make directory for filename
+            os.makedirs(os.path.dirname(filename), exist_ok=True)
             #if filename doesn't exist
+
             if not os.path.exists(os.path.dirname(filename)):
                 ob.build_thing_filename(filename=f'outputs/{name}/', thing=objects, save_type=save_type, render=False)
 
