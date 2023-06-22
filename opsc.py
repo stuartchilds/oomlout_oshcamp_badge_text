@@ -849,7 +849,7 @@ def saveToFileAll(fileIn, extra=""):
     launch_strings = []
     #add openscad
     launch_strings.append("openscad")
-
+    launch_strings.append(f'--render')
     formats = ["dxf","png","svg","stl"]
     
     format_string = ""
@@ -861,7 +861,7 @@ def saveToFileAll(fileIn, extra=""):
         launch_strings.append(f'{file_out}')
                               
     # add -- render filein
-    launch_strings.append(f'--render')
+    
     launch_strings.append(f'{fileIn}')
                           
         
