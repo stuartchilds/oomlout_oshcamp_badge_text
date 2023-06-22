@@ -2217,14 +2217,15 @@ def get_trlts(**kwargs):
 #janky way to be able to draw them either way up
     if rotY == 0:
 
-        wall_thickness = 0.5
+        wall_thickness = 2
 
         thing = ob.get_default_thing(**kwargs)
         th = thing["components"]
 
         #lid
+        pos = [base_pos[0], base_pos[1], base_pos[2]+wall_thickness]
         th.append(ob.oobb_easy(t="p", s=f"{size}_plate", width=width+1/15, 
-        height=height+1/15, depth_mm=wall_thickness, pos=base_pos, m=""))
+        height=height+1/15, depth_mm=wall_thickness, pos=pos, m=""))
 
         #inset for connection
         #positive for smaller
@@ -2288,7 +2289,7 @@ def get_trlts(**kwargs):
         shift = 0
         x_shift = shift
         y_shift = shift
-        pos = [x + x_shift + base_pos[0], y + y_shift + base_pos[1], base_pos[2] - depth/2]
+        pos = [x + x_shift + base_pos[0], y + y_shift + base_pos[1], base_pos[2] - depth/2 + wall_thickness]
         #add corner support
         
         th.append(ob.oobb_easy(t="p", s=f"oobb_cylinder", radius=r, depth=depth, pos=pos, m=""))
