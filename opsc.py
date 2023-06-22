@@ -850,19 +850,24 @@ def saveToFileAll(fileIn, extra=""):
     #add openscad
     launch_strings.append("openscad")
 
-    formats = ["dxf","png","svg","stl","csg"]
+    formats = ["dxf","png","svg","stl"]
     
     format_string = ""
     for f in formats:
         file_out = fileIn.replace(".scad","."+f)
-        format_string = f'{format_string} -o "{file_out}" '
+        format_string = f'{format_string} -o "{file_out}"'
         #add format string to launch string
-        launch_strings.append(format_string)
+        launch_strings.append(f"-o")
+        launch_strings.append(f'{file_out}')
+                              
     # add -- render filein
-    launch_strings.append(f'--render "{fileIn}"')
+    launch_strings.append(f'--render')
+    launch_strings.append(f'{fileIn}')
+                          
         
     #launchStr = f'openscad {format_string} {extra} --render "{fileIn}"'
     #launchStr = f'openscad -h'
+    launchStr = " ".join(launch_strings)
     print("            saveToFile launch string: " + launchStr)
     #if fileout folder doesn't exist, create it
     if not os.path.exists(os.path.dirname(file_out)):
