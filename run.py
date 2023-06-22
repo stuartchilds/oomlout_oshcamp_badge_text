@@ -134,7 +134,7 @@ def main():
 
 
 
-    ob.build_thing_filename(filename=f'outputs/{name_project}/', thing=objects, save_type=save_type)
+    ob.build_thing_filename(filename=f'outputs/', thing=objects, save_type=save_type)
 
 X = 0
 Y = 1
