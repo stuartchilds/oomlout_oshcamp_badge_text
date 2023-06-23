@@ -101,6 +101,7 @@ def all():
 
 def main():
     
+    make_badge()
 
     #read lines from data.txt into an array
     with open("data.txt") as f:
@@ -113,35 +114,73 @@ def main():
     
             name = line      
 
-            ##text
-            ins = "text1"
-            oin = obs[ins] = {}
-            oin["text"] = line
-            oin["size"] = 17
-            oin["height"] = 8
-            oin["font"] = "DejaVu Sans Mono:style=Bold" # "Liberation Sans:style=Bold Italic"
-            oin["halign"] = "center"
-            oin["valign"] = "center"
-            oin["wall_thickness"] = 0.5
-            oin["x"], oin["y"], oin["z"] = 0,0,0
-            oin["shap"] = "text_hollow" #text_hollow text
-            objects.append(ob.oe(t="p", s=oin["shap"], text=oin["text"], size=oin["size"], font=oin["font"], halign=oin["halign"], valign=oin["valign"], height=oin["height"], pos=[oin["x"],oin["y"],oin["z"]], m="", extra="reverse"))
+            #if name is 5 charachters or less
+            if len(name) <= 5:
+                ##text
+                ins = "text1"
+                oin = obs[ins] = {}
+                #first is equal to the first five letters of line in upper case
+                first = name[:5].upper()
+                oin["text"] = first
+                oin["size"] = 13
+                oin["height"] = 8
+                oin["font"] = "DejaVu Sans Mono:style=Bold" # "Liberation Sans:style=Bold Italic"
+                oin["halign"] = "center"
+                oin["valign"] = "center"
+                oin["wall_thickness"] = 0.5
+                oin["x"], oin["y"], oin["z"] = 0,0,0
+                oin["shap"] = "text_hollow" #text_hollow text
+                objects.append(ob.oe(t="p", s=oin["shap"], text=oin["text"], size=oin["size"], font=oin["font"], halign=oin["halign"], valign=oin["valign"], height=oin["height"], pos=[oin["x"],oin["y"],oin["z"]], m="", extra="reverse"))
+            else:
+                #add a "-" as the 5th character
+                name1 = name[:4] + "-" + name[4:]
+                first = name1[:5].upper()
+                second = name1[5:10].upper()
+                ins = "text2"
+                oin = obs[ins] = {}
+                #first is equal to the first five letters of line in upper case
+                oin["text"] = first
+                oin["size"] = 13
+                oin["height"] = 8
+                oin["font"] = "DejaVu Sans Mono:style=Bold" # "Liberation Sans:style=Bold Italic"
+                oin["halign"] = "center"
+                oin["valign"] = "center"
+                oin["wall_thickness"] = 0.5
+                oin["x"], oin["y"], oin["z"] = 0,10.5,0
+                oin["shap"] = "text_hollow" #text_hollow text
+                objects.append(ob.oe(t="p", s=oin["shap"], text=oin["text"], size=oin["size"], font=oin["font"], halign=oin["halign"], valign=oin["valign"], height=oin["height"], pos=[oin["x"],oin["y"],oin["z"]], m="", extra="reverse"))
 
+                oin["text"] = second
+                oin["x"], oin["y"], oin["z"] = 0,-10.5,0
+                objects.append(ob.oe(t="p", s=oin["shap"], text=oin["text"], size=oin["size"], font=oin["font"], halign=oin["halign"], valign=oin["valign"], height=oin["height"], pos=[oin["x"],oin["y"],oin["z"]], m="", extra="reverse"))
 
-            #joining piece
-            width = (7.5*10)-1
-            height = 7.5*3-1
+            #oobb pl
+            width = 5
+            height = 3
             depth = 0.5
             x,y,z = 0,0,0
-            shap = "rounded_rectangle"
-            radius = 1
-            objects.append(ob.oe(t="p", s=shap, r=radius, size=[width,height,depth], pos=[x,y,z], m=""))
+            shap = "oobb_pl"    
+            objects.append(ob.oe(t="p", s=shap, width=width, height=height, depth=depth, pos=[x,y,z], holes=False, m=""))
             
-            xs = [7.5 * 9/2,-7.5 * 9/2]
-            ys = [7.5, 0, -7.5]
-            for x in xs:
-                for y in ys:
-                    objects.append(ob.oe(t="n", s="oobb_hole", radius_name="m3", depth=100, pos=[x,y,-50], m="#"))
+            hs = []
+            hs.append([1,1])
+            hs.append([1,2])
+            hs.append([1,3])
+            hs.append([5,1])
+            hs.append([5,2])
+            hs.append([5,3])
+            
+            ##oobb_hole
+            radius_name = "m3"
+            x,y,z = 0,0,0
+            pos = [x,y,z]
+            width = width
+            height = height
+            holes  = ["single"] # "single"
+            loc = hs
+            shap = "oobb_holes"
+            objects.append(ob.oe(t="n", s=shap, radius_name=radius_name, pos=pos, width=width, height=height, loc=hs,holes = holes, m=""))
+
 
 
             #output filename test
@@ -160,6 +199,53 @@ X = 0
 Y = 1
 Z = 2
 
+
+def make_badge():
+    obs = {}
+    objects = []    
+    
+    #oobb pl
+    width = 5
+    height = 8
+    depth = 1.6
+    x,y,z = 0,0,0
+    shap = "oobb_pl"    
+    objects.append(ob.oe(t="p", s=shap, width=width, height=height, depth=depth, pos=[x,y,z], holes=False, m=""))
+    
+    hs = []
+    hs.append([1,1])
+    hs.append([1,3])
+    hs.append([1,4])
+    hs.append([1,5])
+    hs.append([1,6])
+    hs.append([1,7])
+    hs.append([1,8])
+    hs.append([2,1])
+    hs.append([3,1])
+    hs.append([5,1])
+    hs.append([5,2])
+    hs.append([5,3])
+    hs.append([5,4])
+    hs.append([5,5])
+    hs.append([5,6])
+    hs.append([5,7])
+    hs.append([5,8])
+    
+    ##oobb_hole
+    radius_name = "m3"
+    x,y,z = 0,0,0
+    pos = [x,y,z]
+    width = width
+    height = height
+    holes  = ["single"] # "single"
+    loc = hs
+    shap = "oobb_holes"
+    objects.append(ob.oe(t="n", s=shap, radius_name=radius_name, pos=pos, width=width, height=height, loc=loc,holes = holes, m=""))
+
+
+
+
+    ob.build_thing_filename(filename=f'outputs/0_badge/', thing=objects, save_type=save_type)
 
 if __name__ == "__main__":
     main()

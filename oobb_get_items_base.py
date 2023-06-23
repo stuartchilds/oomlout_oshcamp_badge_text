@@ -308,13 +308,17 @@ def get_oobb_holes(holes=["all"], **kwargs):
                                    x, y, 0], radius_name=radius_name, m=m))
     if "single" in holes:
         # find the start point needs to be half the width_mm plus half osp
-        loc = kwargs.get("loc", [0, 0])
-        pos_start = [xx + -(width*spacing/2) + spacing/2,
-                     yy + -(height*spacing/2) + spacing/2, 0]
-        x = pos_start[0] + (loc[0]-1)*spacing
-        y = pos_start[1] + (loc[1]-1)*spacing
-        objects.extend(ob.oobb_easy(type="negative", shape="oobb_hole", pos=[
-                       x, y, 0], radius_name=radius_name, m=m))
+        locs = kwargs.get("loc", [0, 0])
+        #if loc isn't an array of arrays then make it one
+        if not isinstance(locs[0], list):
+            locs = [locs]
+        for loc in locs:
+            pos_start = [xx + -(width*spacing/2) + spacing/2,
+                        yy + -(height*spacing/2) + spacing/2, 0]
+            x = pos_start[0] + (loc[0]-1)*spacing
+            y = pos_start[1] + (loc[1]-1)*spacing
+            objects.extend(ob.oobb_easy(type="negative", shape="oobb_hole", pos=[
+                        x, y, 0], radius_name=radius_name, m=m))
     if "missing_middle" in holes:
         # find the start point needs to be half the width_mm plus half osp
         pos_start = [xx + -(width*spacing/2) + spacing/2,

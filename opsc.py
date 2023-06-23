@@ -252,7 +252,7 @@ def opsc_easy(type, shape, **kwargs):
         'type': type,
         'shape': shape
     }
-    for param in ['size', 'r', 'radius', 'r1', 'r2', 'd', 'h', 'rw', 'rh', 'dw', 'dh', 'pos', 'x', 'y', 'z', 'rot', 'rotX', 'rotY', 'rotZ', "w", "inclusion", 'sides', 'height', 'width', "m", "id", "od", "depth", "exclude_clearance", "clearance", "points","text","valign","halign","font","inset","wall_thickness","extra","wall_thickness"]:
+    for param in ['size', 'r', 'radius', 'r1', 'r2', 'd', 'h', 'rw', 'rh', 'dw', 'dh', 'pos', 'x', 'y', 'z', 'rot', 'rotX', 'rotY', 'rotZ', "w", "inclusion", 'sides', 'height', 'width', "m", "id", "od", "depth", "exclude_clearance", "clearance", "points","text","valign","halign","font","inset","wall_thickness","extra","wall_thickness", "loc"]:
         if param in kwargs:
             obj[param] = kwargs[param]
     return obj
