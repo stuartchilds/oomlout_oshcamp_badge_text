@@ -1,2 +1,2 @@
-setup-tools==68.0.0
+setup-tools
 solidpython==1.1.3
