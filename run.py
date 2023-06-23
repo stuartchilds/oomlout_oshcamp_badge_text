@@ -194,6 +194,15 @@ def main():
             else:
                 #print meassage about skipping because file already exists
                 print(f"skipping {filename} because it already exists")
+            #copy the outputs/name/3dpr.stl to a outputs/stl directory overwrite if it already exists using os
+            import shutil
+            #if directory doesn't exist make it
+            os.makedirs(os.path.dirname(f"outputs/stl/{name}.stl"), exist_ok=True)
+            shutil.copyfile(f"outputs/{name}/3dpr.stl", f"outputs/stl/{name}.stl")
+            #copy the outputs/name/3dpr.scad to a outputs/scad directory overwrite if it already exists
+            os.makedirs(os.path.dirname(f"outputs/scad/{name}.scad"), exist_ok=True)
+            shutil.copyfile(f"outputs/{name}/3dpr.scad", f"outputs/scad/{name}.scad")
+        
 
 X = 0
 Y = 1
@@ -244,8 +253,13 @@ def make_badge():
 
 
 
-
-    ob.build_thing_filename(filename=f'outputs/0_badge/', thing=objects, save_type=save_type)
+    #only make if stl doesn't exist
+    filename = f"outputs/0_badge/3dpr.stl"
+    #make directory for filename
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    #if filename doesn't exist
+    if not os.path.exists(filename):
+        ob.build_thing_filename(filename=f'outputs/0_badge/', thing=objects, save_type=save_type)
 
 if __name__ == "__main__":
     main()
